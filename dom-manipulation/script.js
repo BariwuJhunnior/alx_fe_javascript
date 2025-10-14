@@ -46,10 +46,10 @@ function showRandomQuote() {
 }
 
 
-function addQuote() {
+function createAddQuoteForm() {
   quotes.push({newQuote, newQuoteCategory});
 
-  
+
 
 }
 
