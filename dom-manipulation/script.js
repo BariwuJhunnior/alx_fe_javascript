@@ -35,13 +35,17 @@ const display = document.querySelector("#quoteDisplay");
 const newQuote = document.querySelector("#newQuoteText").value;
 const newQuoteCategory = document.querySelector("#newQuoteCategory").value;
 
+const newQuoteCreation = document.createElement("p");
+
 function showRandomQuote() {
   let quotesLenght = quotes.length - 1
   let q = quotes[Math.floor(Math.random() * quotesLenght )]
 
-  display.innerHTML = `<p>"${q.text}"</p>
+  newQuoteCreation.innerHTML = `<p>"${q.text}"</p>
   <p><b>Category:</b> ${q.category}</p>
   `;
+
+  display.appendChild(newQuoteCreation);
 
 }
 
