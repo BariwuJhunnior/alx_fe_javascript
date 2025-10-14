@@ -36,6 +36,12 @@ const newQuote = document.querySelector("#newQuoteText").value;
 const newQuoteCategory = document.querySelector("#newQuoteCategory").value;
 
 const newQuoteCreation = document.createElement("p");
+const showNewQuote = document.getElementById("#newQuote");
+
+showNewQuote.addEventListener("click", () => {
+  createAddQuoteForm();
+})
+
 
 function showRandomQuote() {
   let quotesLenght = quotes.length - 1
