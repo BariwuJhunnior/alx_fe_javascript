@@ -1,65 +1,79 @@
-const quotes = [
-  {
-    text: "The best way to get started is to quit talking and begin doing.",
-    category: "Motivation"
-  },
-  {
-    text: "Life is what happens when you're busy making other plans.",
-    category: "Life"
-  },
-  {
-    text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    category: "Perseverance"
-  },
-  {
-    text: "In the middle of difficulty lies opportunity.",
-    category: "Inspiration"
-  },
-  {
-    text: "Happiness depends upon ourselves.",
-    category: "Philosophy"
-  },
-  {
-    text: "Don’t let yesterday take up too much of today.",
-    category: "Motivation"
-  },
-  {
-    text: "You only live once, but if you do it right, once is enough.",
-    category: "Life"
+document.addEventListener("DOMContentLoaded", () => {
+
+  const quotes = [
+    {
+      text: "The best way to get started is to quit talking and begin doing.",
+      category: "Motivation"
+    },
+    {
+      text: "Life is what happens when you're busy making other plans.",
+      category: "Life"
+    },
+    {
+      text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+      category: "Perseverance"
+    },
+    {
+      text: "In the middle of difficulty lies opportunity.",
+      category: "Inspiration"
+    },
+    {
+      text: "Happiness depends upon ourselves.",
+      category: "Philosophy"
+    },
+    {
+      text: "Don’t let yesterday take up too much of today.",
+      category: "Motivation"
+    },
+    {
+      text: "You only live once, but if you do it right, once is enough.",
+      category: "Life"
+    }
+  ];
+
+
+  let quoteInputText = document.querySelector("#newQuoteText");
+  let newQuoteCategoryText = document.querySelector("#newQuoteCategory");
+  const addBtn = document.querySelector(".add-btn");
+
+  const displayBox = document.querySelector("#quoteDisplay");
+  const showRandomQuoteBtn = document.querySelector("#newQuote");
+
+  const newQuoteCreation = document.createElement("p");
+
+  showRandomQuoteBtn.addEventListener('click', showRandomQuote);
+
+
+  function showRandomQuote() {
+    if(!quotes.length) return;
+
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
+
+    newQuoteCreation.innerHTML = `Text: ${q.text}<br><b>Category: ${q.category}</b>`;
+
+    displayBox.appendChild(newQuoteCreation);
   }
-];
 
 
-const display = document.querySelector("#quoteDisplay");
 
-const newQuote = document.querySelector("#newQuoteText").value;
-const newQuoteCategory = document.querySelector("#newQuoteCategory").value;
+  function createAddQuoteForm() {
+    quotes.push({text: quoteInputText.value, category: newQuoteCategoryText.value})
 
-const newQuoteCreation = document.createElement("p");
-const showNewQuote = document.getElementById("#newQuote");
+    quoteInputText.value = "";
+    newQuoteCategoryText.value = "";
 
-showNewQuote.addEventListener("click", () => {
-  createAddQuoteForm();
+    console.log(quotes);
+  }
+
+  addBtn.addEventListener("click", createAddQuoteForm);
+
+
+
+
+
+
+
+  
+
 })
-
-
-function showRandomQuote() {
-  let quotesLenght = quotes.length - 1
-  let q = quotes[Math.floor(Math.random() * quotesLenght )]
-
-  newQuoteCreation.innerHTML = `<p>"${q.text}"</p>
-  <p><b>Category:</b> ${q.category}</p>
-  `;
-
-  display.appendChild(newQuoteCreation);
-
-}
-
-
-function createAddQuoteForm() {
-  quotes.push({newQuote, newQuoteCategory});
-
-
-
-}
 
