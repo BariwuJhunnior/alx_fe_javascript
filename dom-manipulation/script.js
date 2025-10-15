@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const newQuoteCreation = document.createElement("p");
 
+  
+
   showRandomQuoteBtn.addEventListener('click', showRandomQuote);
 
 
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quoteInputText.value = "";
     newQuoteCategoryText.value = "";
 
-    saveToLocalStorage();
+    saveQuotes();
 
     console.log(quotes);
   }
@@ -72,10 +74,26 @@ document.addEventListener("DOMContentLoaded", () => {
   addBtn.addEventListener("click", createAddQuoteForm);
 
 
-  function saveToLocalStorage() {
+  function saveQuotes() {
     localStorage.setItem("quotes", JSON.stringify(quotes))
   };
 
+
+  //JSON File Import Function
+  const fileReader = new FileReader();
+
+  function importFromJsonFile(event) {
+    
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+
+      saveQuotes();
+      alert('Quotes imported successfully!');
+    };
+
+    fileReader.readAsText(event.target.files[0]);
+  }
 
 })
 
