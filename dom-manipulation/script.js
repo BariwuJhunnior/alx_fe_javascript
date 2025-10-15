@@ -32,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
 
-  let quoteInputText = document.querySelector("#newQuoteText");
-  let newQuoteCategoryText = document.querySelector("#newQuoteCategory");
+  let quoteInputText = document.getElementById("newQuoteText");
+  let newQuoteCategoryText = document.getElementById("newQuoteCategory");
   const addBtn = document.querySelector(".add-btn");
 
-  const displayBox = document.querySelector("#quoteDisplay");
-  const showRandomQuoteBtn = document.querySelector("#newQuote");
+  const displayBox = document.getElementById("quoteDisplay");
+  const showRandomQuoteBtn = document.getElementById("newQuote");
 
   const newQuoteCreation = document.createElement("p");
 
