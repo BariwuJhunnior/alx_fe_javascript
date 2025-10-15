@@ -95,6 +95,35 @@ document.addEventListener("DOMContentLoaded", () => {
     fileReader.readAsText(event.target.files[0]);
   }
 
+  /* Export JSON File Function */
+  const exportBtn = document.getElementById("exportBtn");
+
+  // -- Export JSON FEATURE -- 
+  function ExportQuotes() {
+
+    //convert quotes array to JSON string (pretty-print)
+    const jsonData = JSON.stringify(quotes, null, 2);
+
+    //Create a Blob object with the JSON data
+    const blob = new blob([jsonData], {type: 'application/json'});
+
+    //Create a temproray URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    //Create temproray <a> element for download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = 'quotes.json'; //file name
+
+    a.click(); //trigger download
+
+    //Clean up the temproray URL
+    URL.revokeObjectURL(url);
+
+  }
+  
+  exportBtn.addEventListener("lick", ExportQuotes);
+
 })
 
 
