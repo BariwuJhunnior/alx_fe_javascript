@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const quotes = [
+  const quotes = JSON.parse(localStorage.getItem('quotes')) ||  [
     {
       text: "The best way to get started is to quit talking and begin doing.",
       category: "Motivation"
@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
       category: "Life"
     }
   ];
+  
+ 
 
 
   let quoteInputText = document.getElementById("newQuoteText");
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const q = quotes[Math.floor(Math.random() * quotes.length)];
 
-    newQuoteCreation.innerHTML = `Text: ${q.text}<br><b>Category: ${q.category}</b>`;
+    newQuoteCreation.innerHTML = `<b>Text:</b> ${q.text}<br><b>Category:</b> ${q.category}`;
 
     displayBox.appendChild(newQuoteCreation);
   }
@@ -62,18 +64,19 @@ document.addEventListener("DOMContentLoaded", () => {
     quoteInputText.value = "";
     newQuoteCategoryText.value = "";
 
+    saveToLocalStorage();
+
     console.log(quotes);
   }
 
   addBtn.addEventListener("click", createAddQuoteForm);
 
 
+  function saveToLocalStorage() {
+    localStorage.setItem("quotes", JSON.stringify(quotes))
+  };
 
-
-
-
-
-  
 
 })
+
 
