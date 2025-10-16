@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const quotes = JSON.parse(localStorage.getItem('quotes')) ||  [
+  let quotes = JSON.parse(localStorage.getItem('quotes')) ||  [
     {
       text: "The best way to get started is to quit talking and begin doing.",
       category: "Motivation"
@@ -262,6 +262,72 @@ document.addEventListener("DOMContentLoaded", () => {
       populateCategories();
     }
   }
+
+  //Load Local Quotes (if any)
+  function loadLocalQuotes() {
+    const stored = localStorage.getItem("quotes");
+    quotes = stored ? JSON.parse(stored) : []
+  }
+
+  //Sync Data with server (Every 30s)
+  async function syncQuotes() {
+    console.log("Syncing with server...");
+
+    const serverQuotes = await fetchQuotesFromServer();
+
+    if(serverQuotes.length === 0) return;
+
+    const localQuotes = JSON.parse(localStorage.getItem("quotes")) || [
+      {
+        text: "The best way to get started is to quit talking and begin doing.",
+        category: "Motivation"
+      },
+      {
+        text: "Life is what happens when you're busy making other plans.",
+        category: "Life"
+      },
+      {
+        text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+        category: "Perseverance"
+      },
+      {
+        text: "In the middle of difficulty lies opportunity.",
+        category: "Inspiration"
+      },
+      {
+        text: "Happiness depends upon ourselves.",
+        category: "Philosophy"
+      },
+      {
+        text: "Don’t let yesterday take up too much of today.",
+        category: "Motivation"
+      },
+      {
+        text: "You only live once, but if you do it right, once is enough.",
+        category: "Life"
+      }
+    ];
+
+    //conflict resolution: server takes precedence
+    const mergedQuotes = [...serverQuotes];
+
+    //Keep local quotes that don't exist on the server(optional)
+    for(const local of localQuotes){
+      if(!serverQuotes.some(s => s.text === local.text)) {
+        mergedQuotes.push(local);
+      }
+    }
+
+    //Update local data
+    quotes = mergedQuotes;
+    saveQuotes();
+
+    console.log("Data synced. Local quotes updated.");
+    populateCategories();
+  }
+
+  //Periodic Sync
+  setInterval(syncQuotes, 30000); //Every 30 seconds
 
   //Initialize On Load
   fetchQuotesFromServer();
