@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
   //Fetch Quotes from Mock Server
-  async function fetchQuotes() {
+  async function fetchQuotesFromServer() {
     try{
       const response = await fetch(API_URL);
       const data = await response.json();
