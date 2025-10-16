@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  function createAddQuoteForm() {
+  async function createAddQuoteForm() {
     quotes.push({text: quoteInputText.value.trim(), category: newQuoteCategoryText.value.trim()})
 
     if(!quoteInputText.value || !newQuoteCategoryText.value){
@@ -70,17 +70,39 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    saveQuotes();
+    try{
+      const response = await fetch(API_URL, {method: "POST", headers: {
+          "Content-Type": "application/json"
+        }, body: JSON.stringify({text, category})
+      });
 
-    quoteInputText.value = "";
-    newQuoteCategoryText.value = "";
+      const result = await response.json();
+      console.log(`Quote posted to mock API: ${result}`);
 
-    
-    populateCategories();
+      //Add locally and save
+      quotes.push({text, category});
+      saveQuotes();
 
-    saveQuotes();  
+      //Clear input and refresh UI
+      quoteInputText.value = "";
+      newQuoteCategoryText = "";
 
+      populateCategories();
+
+      filterQuotes();
+
+      saveQuotes();
+    }catch(error){
+      console.error(`Error posting new quote: ${error}`);
+    }
   }
+
+  //Periodic Server Fetch Simulation
+  setInterval(() => {
+    console.log("Fetching latest quotes from server...");
+
+    fetchQuotesFromServer();
+  }, 15000);
 
   addBtn.addEventListener("click", createAddQuoteForm);
 
@@ -141,8 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectContainer = document.getElementById("categoryFilter");
 
   function populateCategories(){
-
-    
 
     const valuesArray = [...new Set(quotes.map(q => q.category))] 
    
@@ -242,5 +262,8 @@ document.addEventListener("DOMContentLoaded", () => {
       populateCategories();
     }
   }
+
+  //Initialize On Load
+  fetchQuotesFromServer();
   
 });
