@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quotes = mergedQuotes;
     saveQuotes();
 
-    console.log("Data synced. Local quotes updated.");
+    console.log("Quotes synced with server!");
     populateCategories();
   }
 
