@@ -184,6 +184,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
   selectContainer.addEventListener("change", filterQuotes);
 
+  //Fetching Quotes from Mock Server to simulate fetching data from Mock API
+  const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
+  //Fetch Quotes from Mock Server
+  async function fetchQuotes() {
+    try{
+      const response = await fetch(API_URL);
+      const data = await response.json();
+
+      //Simulate quotes with categories using fake data
+      quotes = data.slice(1, 10).map((item, i) => ({
+        text: item.title,
+        category: ["Life", "Motivation", "Happiness"][i % 3],
+      }));
+
+      //Save locally for persistence
+      localStorage.setItem("quotes", JSON.stringify(quotes));
+
+      populateCategories();
+
+    }catch(error){
+      console.error(`Error fetching quotes: ${error}`);
+
+      //Fallback: use stored quotes if API fails
+      quotes = JSON.parse(localStorage.getItem("quotes")) || [
+        {
+        text: "The best way to get started is to quit talking and begin doing.",
+        category: "Motivation"
+      },
+      {
+        text: "Life is what happens when you're busy making other plans.",
+        category: "Life"
+      },
+      {
+        text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+        category: "Perseverance"
+      },
+      {
+        text: "In the middle of difficulty lies opportunity.",
+        category: "Inspiration"
+      },
+      {
+        text: "Happiness depends upon ourselves.",
+        category: "Philosophy"
+      },
+      {
+        text: "Don’t let yesterday take up too much of today.",
+        category: "Motivation"
+      },
+      {
+        text: "You only live once, but if you do it right, once is enough.",
+        category: "Life"
+      }
+      ]
+
+      populateCategories();
+    }
+  }
   
 });
