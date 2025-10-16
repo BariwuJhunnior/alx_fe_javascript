@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(() => {
     console.log("Fetching latest quotes from server...");
 
-    syncQuotes();
+    fetchQuotesFromServer();
   }, 15000);
 
   addBtn.addEventListener("click", createAddQuoteForm);
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_URL = "https://jsonplaceholder.typicode.com/posts";
 
   //Fetch Quotes from Mock Server
-  async function syncQuotes() {
+  async function fetchQuotesFromServer() {
     try{
       const response = await fetch(API_URL);
       const data = await response.json();
@@ -264,6 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   //Initialize On Load
-  syncQuotes();
+  fetchQuotesFromServer();
   
 });
