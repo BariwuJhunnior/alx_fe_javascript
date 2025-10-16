@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const newQuoteCreation = document.createElement("p");
 
+  const quotesContainer = document.querySelector(".quotesContainer");
+
   
 
   showRandomQuoteBtn.addEventListener('click', showRandomQuote);
@@ -61,14 +63,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   function createAddQuoteForm() {
-    quotes.push({text: quoteInputText.value, category: newQuoteCategoryText.value})
+    quotes.push({text: quoteInputText.value.trim(), category: newQuoteCategoryText.value.trim()})
+
+    if(!quoteInputText.value || !newQuoteCategoryText.value){
+      alert("Please enter both a quote and category.");
+      return;
+    }
+
+    saveQuotes();
 
     quoteInputText.value = "";
     newQuoteCategoryText.value = "";
 
-    saveQuotes();
+    
+    populateCategories();
 
-    console.log(quotes);
+    saveQuotes();  
+
   }
 
   addBtn.addEventListener("click", createAddQuoteForm);
@@ -122,8 +133,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
   
-  exportBtn.addEventListener("lick", ExportQuotes);
-
-})
+  exportBtn.addEventListener("click", ExportQuotes);
 
 
+  //Function for Populating the Options Values with the Quotes Categories
+
+  const selectContainer = document.getElementById("categoryFilter");
+
+  function populateCategories(){
+
+    
+
+    const valuesArray = [...new Set(quotes.map(q => q.category))] 
+   
+
+    for(let i = 0; i < valuesArray.length; i++) {
+      let option = document.createElement("option");
+
+      option.value = valuesArray[i];
+      option.textContent = valuesArray[i];
+
+      selectContainer.appendChild(option);
+    };
+
+  };
+
+  //Restore the last selected category from
+  const savedCategory = localStorage.getItem("selectedCategory");
+  if(savedCategory) {
+    selectContainer.value = savedCategory;
+  }
+
+  
+
+
+  //Filter Quotes Based on Selected Category
+  //FilterQuotes Function
+  function filterQuotes() {
+    const selectedCategory = selectContainer.value;
+
+    localStorage.setItem("selectedCategory", selectedCategory);
+
+    //Filter quotes
+    const filtered = selectedCategory === 'All Categories' ? quotes : quotes.filter(q => q.category === selectedCategory);
+
+    quotesContainer.innerHTML = filtered.map(q => `<p>"${q.text}" <em>- ${q.category}</em></p>`).join("");
+
+    
+  }
+
+  selectContainer.addEventListener("change", filterQuotes);
+
+
+  
+});
